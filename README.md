@@ -1,18 +1,6 @@
-# Write things #
+# Simple-Signup #
 
-Like this.
+Simple-signup is a set of client side views that use authentic-client to provide an easy signup and authentication process.
 
-List
-* asdf
-* asdf
-* asdf
+Still under development.
 
-```json
-{
-	"something":"else"
-}
-```
-
-```js
-console.log("hello world")
-```
