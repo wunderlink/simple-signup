@@ -26,7 +26,9 @@
     "watchify": "^3.6.1"
   },
   "dependencies": {
-    "authentic-client": "0.0.3",
-    "hyperscript": "^1.4.7"
+    "authentic-client": "^0.1.0",
+    "hyperscript": "^1.4.7",
+    "wildemitter": "^1.2.0",
+    "xtend": "^4.0.1"
   }
 }
