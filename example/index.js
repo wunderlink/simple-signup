@@ -20,6 +20,7 @@ function runRoutes (el) {
   if (appState === 'signup') return signupRoute(el)
   if (appState.match(/^confirm/)) return confirmRoute(el, appState)
   if (appState === 'protected') return protectedRoute(el)
+  if (appState === 'login') return loginRoute(el)
   if (appState === 'logout') return logoutRoute(el)
 
   return signupRoute(el)
@@ -56,9 +57,10 @@ function confirmRoute (el, appState) {
   var conf = ss.confirm(opts, onLogin)
   el.appendChild(conf)
 
-  function onLogin (err, result) {
-    window.location.hash = '/protected'
-  }
+}
+
+function onLogin (err, result) {
+  window.location.hash = '/protected'
 }
 
 function protectedRoute (el) {
@@ -67,6 +69,14 @@ function protectedRoute (el) {
   } else {
     el.innerHTML = 'Not logged in!'
   }
+}
+
+function loginRoute (el) {
+  if (ss.authToken()) return window.location.hash = '/protected'
+
+  var form = ss.login(onLogin)
+  el.appendChild(form)
+
 }
 
 function logoutRoute (el) {
