@@ -48,15 +48,18 @@ function confirmRoute (el, appState) {
   var paths = appState.split('/')
   var opts = {
     email: paths[1],
-    confirmToken: paths[2]
+    confirmToken: paths[2],
+    confirmDelay: 5000
   }
+
   var conf = ss.confirm(opts, onLogin)
   el.appendChild(conf)
+
+  function onLogin (err, result) {
+    window.location.hash = '/protected'
+  }
 }
 
-function onLogin () {
-  window.location.hash = '/protected'
-}
 
 function protectedRoute (el) {
   if (ss.authToken) {

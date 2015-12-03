@@ -12,7 +12,7 @@
     "test": "test"
   },
   "scripts": {
-    "example": "beefy example/index.js",
+    "example": "wzrd example/index.js",
     "build": "browserify index.js | uglifyjs -mc > public/main.js",
     "test": "standard"
   },
@@ -20,7 +20,7 @@
   "author": "Tyler Bushnell <wunderlinks@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "beefy": "^2.1.5",
+    "wzrd": "*",
     "browserify": "^12.0.1",
     "standard": "^5.4.1",
     "tape": "^4.0.0",
