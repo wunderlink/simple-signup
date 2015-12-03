@@ -20,6 +20,7 @@ function runRoutes (el) {
   if (appState === 'signup') return signupRoute(el)
   if (appState.match(/^confirm/)) return confirmRoute(el, appState)
   if (appState === 'protected') return protectedRoute(el)
+  if (appState === 'logout') return logoutRoute(el)
 
   return signupRoute(el)
 }
@@ -60,11 +61,15 @@ function confirmRoute (el, appState) {
   }
 }
 
-
 function protectedRoute (el) {
-  if (ss.authToken) {
+  if (ss.authToken()) {
     el.innerHTML = 'You\'re logged in'
   } else {
     el.innerHTML = 'Not logged in!'
   }
+}
+
+function logoutRoute (el) {
+  ss.logout()
+  el.innerHTML = 'You are logged out'
 }
