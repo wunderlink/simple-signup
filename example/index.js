@@ -1,9 +1,6 @@
-//require('../public/style.css')
-
-
 var SimpleSignup = require('..')
 
-var ss = SimpleSignup({server:'http://localhost:3023'})
+var ss = SimpleSignup({ server: 'http://localhost:3023' })
 
 init()
 
@@ -17,17 +14,14 @@ function init () {
 }
 
 function runRoutes (el) {
-  var appState = location.hash.replace('#/', '')
+  var appState = window.location.hash.replace('#/', '')
   el.innerHTML = ''
 
   if (appState === 'signup') return signupRoute(el)
   if (appState.match(/^confirm/)) return confirmRoute(el, appState)
   if (appState === 'protected') return protectedRoute(el)
-  //if (appState === 'login') return loginRoute(el)
-  //if (appState === 'logout') return logoutRoute(el)
 
   return signupRoute(el)
-
 }
 
 function signupRoute (el) {
@@ -35,8 +29,8 @@ function signupRoute (el) {
   var bodyTemplate = [
     '<h1>Welcome to Example</h1>',
     '<p>Thanks for signing up! Please ',
-      '<a href="' + urlTemplate + '">confirm your account</a> ',
-      'to continue.',
+    '<a href="' + urlTemplate + '">confirm your account</a> ',
+    'to continue.',
     '</p>'
   ].join('')
 
@@ -51,7 +45,6 @@ function signupRoute (el) {
 }
 
 function confirmRoute (el, appState) {
-  console.log("CONFIRMING")
   var paths = appState.split('/')
   var opts = {
     email: paths[1],
@@ -67,8 +60,8 @@ function onLogin () {
 
 function protectedRoute (el) {
   if (ss.authToken) {
-    el.innerHTML = "You're logged in"
+    el.innerHTML = 'You\'re logged in'
   } else {
-    el.innerHTML = "Not logged in!"
+    el.innerHTML = 'Not logged in!'
   }
 }
