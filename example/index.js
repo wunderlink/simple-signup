@@ -22,6 +22,8 @@ function runRoutes (el) {
   if (appState === 'protected') return protectedRoute(el)
   if (appState === 'login') return loginRoute(el)
   if (appState === 'logout') return logoutRoute(el)
+  if (appState === 'change-password-request') return changePasswordRequestRoute(el)
+  if (appState.match(/^change-password\//)) return changePasswordRoute(el, appState)
 
   return signupRoute(el)
 }
@@ -82,4 +84,35 @@ function loginRoute (el) {
 function logoutRoute (el) {
   ss.logout()
   el.innerHTML = 'You are logged out'
+}
+
+function changePasswordRequestRoute (el) {
+  var urlTemplate = window.location.origin + '#/change-password/<%= email %>/<%= changeToken %>'
+  var bodyTemplate = [
+    '<h1>Welcome to Example</h1>',
+    '<p>',
+    '<a href="' + urlTemplate + '">Please click to change your password</a> ',
+    '</p>'
+  ].join('')
+
+  var opts = {
+    bodyTemplate: bodyTemplate,
+    from: 'Example ChangePassword <example@signup.com>',
+    subject: 'Change Your Password!'
+  }
+
+  var form = ss.changePasswordRequest(opts)
+  el.appendChild(form)
+}
+
+function changePasswordRoute (el, appState) {
+  var paths = appState.split('/')
+  var opts = {
+    email: paths[1],
+    changeToken: paths[2],
+    confirmDelay: 5000
+  }
+
+  var conf = ss.changePassword(opts, onLogin)
+  el.appendChild(conf)
 }
