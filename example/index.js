@@ -7,6 +7,12 @@ init()
 function init () {
   var main = document.createElement('div')
   document.body.appendChild(main)
+  
+  document.body.appendChild(makeLink('Sign Up', '#/signup'))
+  document.body.appendChild(makeLink('Log In', '#/login'))
+  document.body.appendChild(makeLink('Change Password', '#/change-password-request'))
+  document.body.appendChild(makeLink('Protected', '#/protected'))
+  document.body.appendChild(makeLink('Log Out', '#/logout'))
 
   window.addEventListener('hashchange', function () { runRoutes(main) })
 
@@ -115,4 +121,12 @@ function changePasswordRoute (el, appState) {
 
   var conf = ss.changePassword(opts, onLogin)
   el.appendChild(conf)
+}
+
+function makeLink (text, url) {
+  var a = document.createElement('a')
+  a.style.margin = '5px'
+  a.innerHTML = text
+  a.href = url
+  return a
 }
