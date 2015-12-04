@@ -1,6 +1,7 @@
 var SimpleSignup = require('..')
+var qs = require('querystring')
 
-var ss = SimpleSignup({ server: 'http://localhost:3023' })
+var ss = SimpleSignup({ server: 'http://localhost:1337' })
 
 init()
 
@@ -24,28 +25,20 @@ function runRoutes (el) {
   el.innerHTML = ''
 
   if (appState === 'signup') return signupRoute(el)
-  if (appState.match(/^confirm/)) return confirmRoute(el, appState)
+  if (appState.match(/^confirm/)) return confirmRoute(el)
   if (appState === 'protected') return protectedRoute(el)
   if (appState === 'login') return loginRoute(el)
   if (appState === 'logout') return logoutRoute(el)
   if (appState === 'change-password-request') return changePasswordRequestRoute(el)
-  if (appState.match(/^change-password\//)) return changePasswordRoute(el, appState)
+  if (appState.match(/^change-password/)) return changePasswordRoute(el)
 
   return signupRoute(el)
 }
 
 function signupRoute (el) {
-  var urlTemplate = window.location.origin + '#/confirm/<%= email %>/<%= confirmToken %>'
-  var bodyTemplate = [
-    '<h1>Welcome to Example</h1>',
-    '<p>Thanks for signing up! Please ',
-    '<a href="' + urlTemplate + '">confirm your account</a> ',
-    'to continue.',
-    '</p>'
-  ].join('')
 
   var opts = {
-    bodyTemplate: bodyTemplate,
+    confirmUrl: window.location.origin + '#/confirm',
     from: 'Example Signup <example@signup.com>',
     subject: 'Welcome!'
   }
@@ -54,21 +47,22 @@ function signupRoute (el) {
   el.appendChild(form)
 }
 
-function confirmRoute (el, appState) {
-  var paths = appState.split('/')
+function confirmRoute (el) {
+  var query = qs.parse(window.location.search.slice(1))
+
   var opts = {
-    email: paths[1],
-    confirmToken: paths[2],
+    email: query.email,
+    confirmToken: query.confirmToken,
     confirmDelay: 5000
   }
 
   var conf = ss.confirm(opts, onLogin)
   el.appendChild(conf)
-
 }
 
 function onLogin (err, result) {
   window.location.hash = '/protected'
+  window.location.search = ''
 }
 
 function protectedRoute (el) {
@@ -93,16 +87,8 @@ function logoutRoute (el) {
 }
 
 function changePasswordRequestRoute (el) {
-  var urlTemplate = window.location.origin + '#/change-password/<%= email %>/<%= changeToken %>'
-  var bodyTemplate = [
-    '<h1>Welcome to Example</h1>',
-    '<p>',
-    '<a href="' + urlTemplate + '">Please click to change your password</a> ',
-    '</p>'
-  ].join('')
-
   var opts = {
-    bodyTemplate: bodyTemplate,
+    changeUrl: window.location.origin + '#/change-password',
     from: 'Example ChangePassword <example@signup.com>',
     subject: 'Change Your Password!'
   }
@@ -112,10 +98,10 @@ function changePasswordRequestRoute (el) {
 }
 
 function changePasswordRoute (el, appState) {
-  var paths = appState.split('/')
+  var query = qs.parse(window.location.search.slice(1))
   var opts = {
-    email: paths[1],
-    changeToken: paths[2],
+    email: query.email,
+    changeToken: query.changeToken,
     confirmDelay: 5000
   }
 
