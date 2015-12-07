@@ -3,12 +3,13 @@ var qs = require('querystring')
 
 var ss = SimpleSignup({ server: 'http://localhost:1337' })
 
+setStyles()
 init()
 
 function init () {
   var main = document.createElement('div')
   document.body.appendChild(main)
-  
+
   document.body.appendChild(makeLink('Sign Up', '#/signup'))
   document.body.appendChild(makeLink('Log In', '#/login'))
   document.body.appendChild(makeLink('Change Password', '#/change-password-request'))
@@ -115,4 +116,10 @@ function makeLink (text, url) {
   a.innerHTML = text
   a.href = url
   return a
+}
+
+function setStyles () {
+  document.body.style.background = '#eee'
+  document.body.style.fontFamily = 'sans-serif'
+  document.body.style.textAlign = 'center'
 }
