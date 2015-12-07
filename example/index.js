@@ -3,7 +3,6 @@ var qs = require('querystring')
 
 var ss = SimpleSignup({
   server: 'http://localhost:1337',
-  styles: true,
   links: {
     signup: '#/signup',
     login: '#/login',
