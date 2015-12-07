@@ -1,7 +1,15 @@
 var SimpleSignup = require('..')
 var qs = require('querystring')
 
-var ss = SimpleSignup({ server: 'http://localhost:1337' })
+var ss = SimpleSignup({
+  server: 'http://localhost:1337',
+  styles: true,
+  links: {
+    signup: '#/signup',
+    login: '#/login',
+    changePasswordRequest: '#/change-password-request'
+  }
+})
 
 setStyles()
 init()
@@ -10,9 +18,6 @@ function init () {
   var main = document.createElement('div')
   document.body.appendChild(main)
 
-  document.body.appendChild(makeLink('Sign Up', '#/signup'))
-  document.body.appendChild(makeLink('Log In', '#/login'))
-  document.body.appendChild(makeLink('Change Password', '#/change-password-request'))
   document.body.appendChild(makeLink('Protected', '#/protected'))
   document.body.appendChild(makeLink('Log Out', '#/logout'))
 
@@ -70,7 +75,10 @@ function protectedRoute (el) {
   if (ss.authToken()) {
     el.innerHTML = 'You\'re logged in'
   } else {
-    el.innerHTML = 'Not logged in!'
+    el.innerHTML = 'Not logged in! Redirecting...'
+    setTimeout(function () {
+      window.location.hash = '/login'
+    }, 2000)
   }
 }
 
@@ -84,7 +92,10 @@ function loginRoute (el) {
 
 function logoutRoute (el) {
   ss.logout()
-  el.innerHTML = 'You are logged out'
+  el.innerHTML = 'You are logged out. Redirecting...'
+  setTimeout(function () {
+    window.location.hash = '/login'
+  }, 2000)
 }
 
 function changePasswordRequestRoute (el) {
